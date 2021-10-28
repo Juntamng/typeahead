@@ -1,0 +1,42 @@
+.search_textbox {
+    display: flex;
+    height: 100%;
+    border: 2px solid #ccc;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+}
+
+.search_textbox input {
+    flex-grow: 1;
+    min-width: 80px;
+    border: 0px;
+    min-height: 20px;
+    outline: none;
+    padding: 5px 5px;
+    height: 100%;
+} 
+
+.search_textbox > .clear {
+    /* border:1px red solid; */
+    min-width: 20px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.search_textbox > .expand {
+    /* border:1px red solid; */
+    text-align: center;
+    min-width: 20px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 13px;
+    font-weight: 500;
+    border-left: 1px solid #ccc;
+    padding-top: 2px;
+    padding-right: 1px;
+}

@@ -1,0 +1,41 @@
+.scrollabe_div {
+    position: absolute;
+    height: 100px;
+    overflow: auto;
+    width: 100%;
+    margin-top: 1px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+}
+
+.scrollabe_div > ul {
+    list-style-type: none;
+    margin: 0px;
+    padding: 0px;   
+}
+
+.scrollabe_div li {
+    text-align: left;
+    color: #000;
+    padding: 3px 5px;
+}
+
+.scrollabe_div li:hover {
+    color: #fff;
+    background-color: #000;
+}
+
+.scrollabe_div li.selected {
+    color: #fff;
+    background-color: #000;
+}
+
+.notfound {
+    position: absolute;
+    width: 100%;
+    margin-top: 1px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    text-align: center;
+    padding: 2px;
+}
