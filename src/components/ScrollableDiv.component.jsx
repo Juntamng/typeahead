@@ -5,9 +5,12 @@ import './ScrollableDiv.style.css';
 class ScrollableDiv extends React.Component {
     constructor(props) {
         super(props);
+
+        this.divRef = React.createRef();
     }
 
     componentDidUpdate() {
+        this.divRef.current && this.divRef.current.scrollIntoView();
     }
 
     notFound() {
@@ -21,7 +24,8 @@ class ScrollableDiv extends React.Component {
                 {
                     this.props.data.map( (val, key) => 
                         <li key={val.id}
-                            className={ (this.props.index === key) ? "selected": ""} 
+                            ref={ (this.props.index === key) ? this.divRef : ""} 
+                            className={ (this.props.index === key) ? "selected" : ""} 
                             onClick={ () => this.props.onSelectItem(val.id) }
                         >{val.name}</li> 
                     )
