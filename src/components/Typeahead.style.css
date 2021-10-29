@@ -3,22 +3,11 @@
     padding: 0px;
     margin: 0px;
     min-width: 150px;
-    
     min-height: 23px;
     height: 100%;
     position: relative;
 }
 
-.typeahead  * {
+/* .typeahead  * {
     box-sizing: border-box;
-}
-
-.typeahead .icon {
-    color: rgb(112, 107, 107);
-}
-
-.typeahead input {
-    -webkit-border-radius: 8px;
-    -moz-border-radius: 8px;
-    border-radius: 8px;
-}
+} */

@@ -2,9 +2,11 @@
     display: flex;
     height: 100%;
     border: 1px solid #ccc;
+    /*
     -webkit-border-radius: 8px;
     -moz-border-radius: 8px;
     border-radius: 8px;
+    */
 }
 
 .search_textbox input {
@@ -12,9 +14,14 @@
     min-width: 80px;
     border: 0px;
     min-height: 20px;
-    outline: none;
+    outline: none; 
     padding: 5px 5px;
     height: 100%;
+    /*
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
+    */
 } 
 
 .search_textbox > .clear {

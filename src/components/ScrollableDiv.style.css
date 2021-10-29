@@ -22,7 +22,7 @@
 
 .scrollabe_div li:hover {
     color: #fff;
-    background-color: #000;
+    background-color: rgb(104, 104, 104);
 }
 
 .scrollabe_div li.selected {

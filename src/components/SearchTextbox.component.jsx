@@ -10,6 +10,8 @@ class SearchTextbox extends React.Component {
         this.focusTextInput = this.focusTextInput.bind(this);
         this.handleClear = this.handleClear.bind(this);
         this.handleToggle = this.handleToggle.bind(this);
+
+        this.addClearIcon = this.addClearIcon.bind(this);
     }
 
     focusTextInput() {
@@ -26,6 +28,12 @@ class SearchTextbox extends React.Component {
         this.focusTextInput();
     }
 
+    addClearIcon() {
+        return this.props.searchText.length ? 
+            <div className='clear' onClick={this.handleClear}>×</div>
+            : ""
+    }
+
     render() {
         return (
             <div className='search_textbox'>
@@ -35,12 +43,10 @@ class SearchTextbox extends React.Component {
                     value={this.props.searchText}
                     onChange={this.props.onSearchText} 
                     onKeyUp={this.props.onKeyUp}
+                    onFocus={this.props.onFocus}
                 />
-                { this.props.searchText.length ? 
-                    <div className='clear' onClick={this.handleClear}>×</div>
-                    : ""
-                } 
-            <div className='expand' onClick={this.handleToggle}>ᐯ</div>
+                { this.addClearIcon() }
+            {/*<div className='expand' onClick={this.handleToggle}>ᐯ</div>*/}
             </div>
         )
     }

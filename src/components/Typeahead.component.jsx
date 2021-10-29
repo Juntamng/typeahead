@@ -9,20 +9,23 @@ import './Typeahead.style.css';
 class Typeahead extends React.Component {
     constructor(props) {
         super(props);
+
         this.state = {
             searchText: '',
             value: '',
             filterData: [],
-            toggleDropdown: false,
+            toggle: false,
             loading: false,
             index: -1
         }
 
+        this.showDropdown = this.showDropdown.bind(this);
         //this.handleKeyPress = _.debounce( this.props.onSearchText, 1000  );
         this.handleSearchText = this.handleSearchText.bind(this);
         this.handleClear = this.handleClear.bind(this);
         this.handleToggle = this.handleToggle.bind(this);
         this.handleKeyUp = this.handleKeyUp.bind(this);
+        this.handleFocus = this.handleFocus.bind(this);
 
         this.handleSelectItem = this.handleSelectItem.bind(this);
 
@@ -30,6 +33,17 @@ class Typeahead extends React.Component {
         this.closeOnWindowClick = this.closeOnWindowClick.bind(this);
     }
     
+    resetState() {
+        this.setState({
+            searchText: '',
+            value: '',
+            filterData: [],
+            toggle: false,
+            loading: false,
+            index: -1
+        });
+    }
+
     componentDidMount() {
         window.addEventListener("click", this.closeOnWindowClick);
     }
@@ -73,13 +87,7 @@ class Typeahead extends React.Component {
     }
 
     handleClear(e) {
-        this.setState({
-            searchText: '',
-            value: '',
-            filterData: [],
-            toggle: false
-        });
-        this.clearKeyIndex();
+        this.resetState();
     }
 
     handleToggle(e) {
@@ -106,6 +114,7 @@ class Typeahead extends React.Component {
                 toggle: false
             });
         }
+        
         this.clearKeyIndex();
     }
 
@@ -128,7 +137,13 @@ class Typeahead extends React.Component {
             case "Enter":
                 this.handleEnter();
                 break;
+            default:
+                break;
         }
+    }
+
+    handleFocus() {
+        this.setState( { toggle: true } );
     }
 
     handleEnter() {
@@ -144,6 +159,39 @@ class Typeahead extends React.Component {
         this.setState({toggle: false});
     }
 
+    notFound() {
+        // todo: component
+        return <div className={"notfound"}>Not Found!</div>;
+    }
+
+    showDropdown() {
+        if (this.state.loading) {
+            return '';
+        }
+        
+        if (this.state.toggle && this.state.searchText.length) {
+            if (this.state.searchText === this.state.value) {
+                return '';
+            }
+            else if (this.state.filterData.length) {                
+                return (
+                    <ScrollableDivComponent 
+                        loading={this.state.loading} 
+                        data={this.state.filterData} 
+                        onSelectItem={this.handleSelectItem} 
+                        index={this.state.index}
+                    />
+                );
+            }
+            else {
+                return this.notFound();
+            }
+        }
+        else {
+            return ""
+        }
+    }
+
     render() {
         return (
             <div className='typeahead' onClick={this.handleClick}>
@@ -152,18 +200,11 @@ class Typeahead extends React.Component {
                     onClear={this.handleClear}
                     onToggle={this.handleToggle}
                     onKeyUp={this.handleKeyUp}
+                    onFocus={this.handleFocus}
                     searchText={this.state.searchText}
                 />
-                {
-                    this.state.toggle ? 
-                    <ScrollableDivComponent 
-                        loading={this.state.loading} 
-                        data={this.state.filterData} 
-                        onSelectItem={this.handleSelectItem} 
-                        index={this.state.index}
-                    />
-                    : ''
-                }
+                { this.showDropdown() }
+                
             </div>    
     )}
 }
