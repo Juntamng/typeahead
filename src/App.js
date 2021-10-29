@@ -16,7 +16,7 @@ function App() {
     {id: 12, name: 'cam'}
   ]
   return (
-    <div className="App" style={ {margin: "10px", border: '1px green solid', width: "30%"} }>
+    <div className="App" style={ {margin: "10px", border: '0px green solid', width: "30%"} }>
       <Typeahead data={data}/>
     </div>
   );

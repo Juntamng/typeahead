@@ -30,7 +30,7 @@ class SearchTextbox extends React.Component {
         return (
             <div className='search_textbox'>
                 <input type='text' 
-                    placeholder='search' 
+                    placeholder='Search' 
                     ref={this.textInput}
                     value={this.props.searchText}
                     onChange={this.props.onSearchText} 

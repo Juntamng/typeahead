@@ -1,7 +1,7 @@
 .search_textbox {
     display: flex;
     height: 100%;
-    border: 2px solid #ccc;
+    border: 1px solid #ccc;
     -webkit-border-radius: 8px;
     -moz-border-radius: 8px;
     border-radius: 8px;

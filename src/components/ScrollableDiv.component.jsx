@@ -10,10 +10,11 @@ class ScrollableDiv extends React.Component {
     }
 
     componentDidUpdate() {
-        this.divRef.current && this.divRef.current.scrollIntoView();
+        this.divRef.current && this.divRef.current.scrollIntoView(false);
     }
 
     notFound() {
+        // todo: component
         return <div className={"notfound"}>Not Found!</div>;
     }
 
@@ -22,10 +23,10 @@ class ScrollableDiv extends React.Component {
         <div className='scrollabe_div'>
             <ul>
                 {
-                    this.props.data.map( (val, key) => 
+                    this.props.data.map( (val, idx) => 
                         <li key={val.id}
-                            ref={ (this.props.index === key) ? this.divRef : ""} 
-                            className={ (this.props.index === key) ? "selected" : ""} 
+                            ref={ (this.props.index === idx) ? this.divRef : ""} 
+                            className={ (this.props.index === idx) ? "selected" : ""} 
                             onClick={ () => this.props.onSelectItem(val.id) }
                         >{val.name}</li> 
                     )

@@ -53,7 +53,6 @@ class Typeahead extends React.Component {
             loading: true
         });
 
-        
         if (event.target.value === "") 
         {
             this.setState({
