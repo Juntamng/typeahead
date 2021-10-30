@@ -9,7 +9,7 @@ class SearchTextbox extends React.Component {
         this.textInput = React.createRef();
         this.focusTextInput = this.focusTextInput.bind(this);
         this.handleClear = this.handleClear.bind(this);
-        this.handleToggle = this.handleToggle.bind(this);
+        //this.handleToggle = this.handleToggle.bind(this);
 
         this.addClearIcon = this.addClearIcon.bind(this);
     }
@@ -23,10 +23,10 @@ class SearchTextbox extends React.Component {
         this.focusTextInput();
     }
 
-    handleToggle(e) {
-        this.props.onToggle(e);
-        this.focusTextInput();
-    }
+    // handleToggle(e) {
+    //     this.props.onToggle(e);
+    //     this.focusTextInput();
+    // }
 
     addClearIcon() {
         return this.props.searchText.length ? 

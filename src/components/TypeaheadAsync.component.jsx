@@ -13,15 +13,14 @@ class Typeahead extends React.Component {
         this.state = {
             searchText: '',
             value: '',
-            toggle: false,
-            loading: false,
+            open: false,
             index: -1
         }
 
         this.showDropdown = this.showDropdown.bind(this);
         this.handleSearchText = this.handleSearchText.bind(this);
         this.handleClear = this.handleClear.bind(this);
-        this.handleToggle = this.handleToggle.bind(this);
+        //this.handleToggle = this.handleToggle.bind(this);
         this.handleKeyUp = this.handleKeyUp.bind(this);
         this.handleFocus = this.handleFocus.bind(this);
 
@@ -35,8 +34,7 @@ class Typeahead extends React.Component {
         this.setState({
             searchText: '',
             value: '',
-            toggle: false,
-            loading: false,
+            open: false,
             index: -1
         });
     }
@@ -45,12 +43,6 @@ class Typeahead extends React.Component {
         window.addEventListener("click", this.closeOnWindowClick);
     }
 
-    componentDidUpdate(prevProps, prevState, snapshot)
-    {
-        if (!prevProps.collectionLoading && !this.props.collectionLoading) {
-            this.state.loading = false;
-        }
-    }
     componentWillUnmount() {
         window.removeEventListener("click", this.closeOnWindowClick);
     }
@@ -67,10 +59,11 @@ class Typeahead extends React.Component {
         const val = event.target.value
         this.setState({
             searchText: val, 
-            toggle: true,
-            loading: true
+            open: true
         });
         
+        this.props.setLoading(true);
+
         _.debounce( () => {
             this.props.onFilter(val)
             this.clearKeyIndex();
@@ -81,18 +74,18 @@ class Typeahead extends React.Component {
         this.resetState();
     }
 
-    handleToggle(e) {
-        this.setState( (state, props) => {
-            let bToggle = !state.toggle;
+    // handleToggle(e) {
+    //     this.setState( (state, props) => {
+    //         let bToggle = !state.toggle;
 
-            if (this.props.collectionFilter.length === 0) {
-                bToggle = (state.searchText.length) ? bToggle = true : false;  
-            }
+    //         if (this.props.collectionFilter.length === 0) {
+    //             bToggle = (state.searchText.length) ? bToggle = true : false;  
+    //         }
             
-            return { toggle: bToggle };
-        });
-        this.clearKeyIndex();
-    }
+    //         return { toggle: bToggle };
+    //     });
+    //     this.clearKeyIndex();
+    // }
 
     handleSelectItem(key) {
         const findItem = this.props.collectionFilter.find( item => item.id === key);
@@ -102,7 +95,7 @@ class Typeahead extends React.Component {
             this.setState({
                 searchText: name,
                 value: name,
-                toggle: false
+                open: false
             });
 
             this.props.setValue({...findItem});
@@ -136,7 +129,7 @@ class Typeahead extends React.Component {
     }
 
     handleFocus() {
-        this.setState( { toggle: true } );
+        this.setState( { open: true } );
     }
 
     handleEnter() {
@@ -149,7 +142,7 @@ class Typeahead extends React.Component {
     }
 
     closeOnWindowClick() { 
-        this.setState({toggle: false});
+        this.setState({open: false});
     }
 
     notFound() {
@@ -158,11 +151,11 @@ class Typeahead extends React.Component {
     }
 
     showDropdown() {
-        if (this.state.loading || this.props.collectionLoading) {
-            return '';
-        }
+        // if (this.props.collectionLoading) {
+        //     return '';
+        // }
 
-        if (this.state.toggle && this.state.searchText.length) {
+        if (this.state.open && this.state.searchText.length) {
             if (this.state.searchText === this.state.value) {
                 return '';
             }
@@ -177,7 +170,8 @@ class Typeahead extends React.Component {
                 );
             }
             else {
-                return this.notFound();
+                if (!this.props.collectionLoading) 
+                    return this.notFound();
             }
         }
         else {
@@ -191,7 +185,7 @@ class Typeahead extends React.Component {
                 <SearchTextbox 
                     onSearchText={this.handleSearchText} 
                     onClear={this.handleClear}
-                    onToggle={this.handleToggle}
+                    //onToggle={this.handleToggle}
                     onKeyUp={this.handleKeyUp}
                     onFocus={this.handleFocus}
                     searchText={this.state.searchText}

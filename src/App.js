@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react';
+import {useState} from 'react';
 import Typeahead from './components/Typeahead.component';
 import TypeaheadAsync from './components/TypeaheadAsync.component';
 
@@ -38,7 +38,7 @@ function App() {
     <div className="App" style={ {margin: "10px", border: '0px green solid', width: "30%"} }>
       <h2> Regular Example </h2>
       <Typeahead
-        data={data}
+        collection={data}
         setValue={setValue}/>
       <br/>
       <div>Value is {JSON.stringify(value)}</div>
@@ -49,6 +49,7 @@ function App() {
         collectionFilter={col}
         collectionLoading={loading}
         onFilter={filter}
+        setLoading={setLoading}
         setValue={setValueAsync}/>
       <br/>
       <div>valueAsync is {JSON.stringify(valueAsync)}</div>
