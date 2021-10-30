@@ -13,14 +13,12 @@ class Typeahead extends React.Component {
         this.state = {
             searchText: '',
             value: '',
-            filterData: [],
             toggle: false,
             loading: false,
             index: -1
         }
 
         this.showDropdown = this.showDropdown.bind(this);
-        //this.handleKeyPress = _.debounce( this.props.onSearchText, 1000  );
         this.handleSearchText = this.handleSearchText.bind(this);
         this.handleClear = this.handleClear.bind(this);
         this.handleToggle = this.handleToggle.bind(this);
@@ -37,7 +35,6 @@ class Typeahead extends React.Component {
         this.setState({
             searchText: '',
             value: '',
-            filterData: [],
             toggle: false,
             loading: false,
             index: -1
@@ -47,7 +44,13 @@ class Typeahead extends React.Component {
     componentDidMount() {
         window.addEventListener("click", this.closeOnWindowClick);
     }
-    
+
+    componentDidUpdate(prevProps, prevState, snapshot)
+    {
+        if (!prevProps.collectionLoading && !this.props.collectionLoading) {
+            this.state.loading = false;
+        }
+    }
     componentWillUnmount() {
         window.removeEventListener("click", this.closeOnWindowClick);
     }
@@ -61,27 +64,15 @@ class Typeahead extends React.Component {
     }
 
     handleSearchText(event) {
+        const val = event.target.value
         this.setState({
-            searchText: event.target.value, 
+            searchText: val, 
             toggle: true,
             loading: true
         });
-
-        if (event.target.value === "") 
-        {
-            this.setState({
-                filterData: []
-            });
-            return ;
-        }
         
         _.debounce( () => {
-            this.setState({
-                filterData: this.props.data.filter((val, key) => 
-                    val.name.indexOf(event.target.value) > -1
-                ),
-                loading: false
-            });
+            this.props.onFilter(val)
             this.clearKeyIndex();
         }, 200)();
     }
@@ -94,7 +85,7 @@ class Typeahead extends React.Component {
         this.setState( (state, props) => {
             let bToggle = !state.toggle;
 
-            if (state.filterData.length === 0) {
+            if (this.props.collectionFilter.length === 0) {
                 bToggle = (state.searchText.length) ? bToggle = true : false;  
             }
             
@@ -104,7 +95,7 @@ class Typeahead extends React.Component {
     }
 
     handleSelectItem(key) {
-        const findItem = this.props.data.find( item => item.id === key);
+        const findItem = this.props.collectionFilter.find( item => item.id === key);
 
         if (findItem) {
             const name = findItem.name;
@@ -130,7 +121,7 @@ class Typeahead extends React.Component {
                 }
                 break;
             case "ArrowDown":
-                if (this.state.index < this.state.filterData.length-1) {
+                if (this.state.index < this.props.collectionFilter.length-1) {
                     this.setState((state, props) => {
                         return {index: state.index+1}
                     })
@@ -150,7 +141,7 @@ class Typeahead extends React.Component {
 
     handleEnter() {
         if (this.state.index > -1) {
-            const item = this.state.filterData[this.state.index];
+            const item = this.props.collectionFilter[this.state.index];
             
             if (item)
                 this.handleSelectItem(item.id);
@@ -167,19 +158,19 @@ class Typeahead extends React.Component {
     }
 
     showDropdown() {
-        if (this.state.loading) {
+        if (this.state.loading || this.props.collectionLoading) {
             return '';
         }
-        
+
         if (this.state.toggle && this.state.searchText.length) {
             if (this.state.searchText === this.state.value) {
                 return '';
             }
-            else if (this.state.filterData.length) {                
+            else if (this.props.collectionFilter.length) {                
                 return (
                     <ScrollableDivComponent 
-                        loading={this.state.loading} 
-                        data={this.state.filterData} 
+                        loading={this.props.collectionLoading} 
+                        data={this.props.collectionFilter} 
                         onSelectItem={this.handleSelectItem} 
                         index={this.state.index}
                     />
