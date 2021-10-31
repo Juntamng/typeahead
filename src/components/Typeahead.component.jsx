@@ -4,6 +4,8 @@ import _ from 'underscore';
 import SearchTextbox from "./SearchTextbox.component";
 import ScrollableDivComponent from "./ScrollableDiv.component";
 
+import {getRecord} from './util.js';
+
 import './Typeahead.style.css';
 
 class Typeahead extends React.Component {
@@ -20,7 +22,7 @@ class Typeahead extends React.Component {
         }
 
         this.showDropdown = this.showDropdown.bind(this);
-        //this.handleKeyPress = _.debounce( this.props.onSearchText, 1000  );
+
         this.handleSearchText = this.handleSearchText.bind(this);
         this.handleClear = this.handleClear.bind(this);
         //this.handleToggle = this.handleToggle.bind(this);
@@ -77,9 +79,11 @@ class Typeahead extends React.Component {
         
         _.debounce( () => {
             this.setState({
-                filterData: this.props.collection.filter((val, key) => 
-                    val.name.indexOf(event.target.value) > -1
-                ),
+                filterData: this.props.collection
+                    .map((val) => getRecord(val, this.props.formatRecord))
+                    .filter((val, key) => {
+                        return val.name.search(new RegExp(event.target.value, "i")) > -1
+                    }),
                 loading: false,
                 open: true
             });
@@ -104,14 +108,14 @@ class Typeahead extends React.Component {
     //     this.clearKeyIndex();
     // }
 
-    handleSelectItem(key) {
-        const findItem = this.props.collection.find( item => item.id === key);
+    handleSelectItem(id) {
+        const findItem = this.state.filterData
+            .find((val) => val.id === id);
 
         if (findItem) {
-            const name = findItem.name;
             this.setState({
-                searchText: name,
-                value: name,
+                searchText: findItem.name,
+                value: findItem.name,
                 open: false
             });
 
@@ -172,13 +176,14 @@ class Typeahead extends React.Component {
             if (this.state.searchText === this.state.value) {
                 return '';
             }
-            else if (this.state.filterData.length) {                
+            else if (this.state.filterData.length) {              
                 return (
                     <ScrollableDivComponent 
                         loading={this.state.loading} 
-                        data={this.state.filterData} 
+                        collection={this.state.filterData} 
                         onSelectItem={this.handleSelectItem} 
                         index={this.state.index}
+                        formatContent={this.props.formatContent}
                     />
                 );
             }

@@ -4,6 +4,8 @@ import _ from 'underscore';
 import SearchTextbox from "./SearchTextbox.component";
 import ScrollableDivComponent from "./ScrollableDiv.component";
 
+import {getRecord} from './util.js';
+
 import './Typeahead.style.css';
 
 class Typeahead extends React.Component {
@@ -13,11 +15,13 @@ class Typeahead extends React.Component {
         this.state = {
             searchText: '',
             value: '',
+            filterData: [],
             open: false,
             index: -1
         }
 
         this.showDropdown = this.showDropdown.bind(this);
+
         this.handleSearchText = this.handleSearchText.bind(this);
         this.handleClear = this.handleClear.bind(this);
         //this.handleToggle = this.handleToggle.bind(this);
@@ -43,6 +47,15 @@ class Typeahead extends React.Component {
         window.addEventListener("click", this.closeOnWindowClick);
     }
 
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (JSON.stringify(prevProps.collectionFilter) !== JSON.stringify(this.props.collectionFilter)) {
+            this.setState({ 
+                filterData: this.props.collectionFilter
+                                .map((val) => getRecord(val, this.props.formatRecord))
+            });
+        }
+    }
+
     componentWillUnmount() {
         window.removeEventListener("click", this.closeOnWindowClick);
     }
@@ -56,7 +69,8 @@ class Typeahead extends React.Component {
     }
 
     handleSearchText(event) {
-        const val = event.target.value
+        const val = event.target.value;
+
         this.setState({
             searchText: val, 
             open: true
@@ -87,14 +101,13 @@ class Typeahead extends React.Component {
     //     this.clearKeyIndex();
     // }
 
-    handleSelectItem(key) {
-        const findItem = this.props.collectionFilter.find( item => item.id === key);
+    handleSelectItem(id) {
+        const findItem = this.state.filterData.find(val => val.id === id);
 
         if (findItem) {
-            const name = findItem.name;
             this.setState({
-                searchText: name,
-                value: name,
+                searchText: findItem.name,
+                value: findItem.name,
                 open: false
             });
 
@@ -114,7 +127,7 @@ class Typeahead extends React.Component {
                 }
                 break;
             case "ArrowDown":
-                if (this.state.index < this.props.collectionFilter.length-1) {
+                if (this.state.index < this.state.filterData.length-1) {
                     this.setState((state, props) => {
                         return {index: state.index+1}
                     })
@@ -134,7 +147,7 @@ class Typeahead extends React.Component {
 
     handleEnter() {
         if (this.state.index > -1) {
-            const item = this.props.collectionFilter[this.state.index];
+            const item = this.state.filterData[this.state.index];
             
             if (item)
                 this.handleSelectItem(item.id);
@@ -151,21 +164,18 @@ class Typeahead extends React.Component {
     }
 
     showDropdown() {
-        // if (this.props.collectionLoading) {
-        //     return '';
-        // }
-
         if (this.state.open && this.state.searchText.length) {
             if (this.state.searchText === this.state.value) {
                 return '';
             }
-            else if (this.props.collectionFilter.length) {                
+            else if (this.state.filterData.length) {                
                 return (
                     <ScrollableDivComponent 
                         loading={this.props.collectionLoading} 
-                        data={this.props.collectionFilter} 
+                        collection={this.state.filterData} 
                         onSelectItem={this.handleSelectItem} 
                         index={this.state.index}
+                        formatContent={this.props.formatContent}
                     />
                 );
             }

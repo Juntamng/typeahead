@@ -1,5 +1,4 @@
 import React from 'react';
-
 import './ScrollableDiv.style.css';
 
 class ScrollableDiv extends React.Component {
@@ -13,20 +12,29 @@ class ScrollableDiv extends React.Component {
         this.divRef.current && this.divRef.current.scrollIntoView(false);
     }
 
+    renderContent(record) {
+        if (this.props.formatContent) {
+            return this.props.formatContent(record);
+        }
+        else {
+            return record.name;
+        }
+    }
+
     render() {
         return (
         <div className='scrollabe_div'>
             <ul>
                 {
-                    this.props.data.map( (val, idx) => 
-                        <li key={val.id}
+                    this.props.collection.map( (val, idx) => {
+                        return (<li key={val.id}
                             ref={ (this.props.index === idx) ? this.divRef : null } 
                             className={ (this.props.index === idx) ? "selected" : ""} 
                             onClick={ () => this.props.onSelectItem(val.id) } 
                         >
-                            {val.name}
-                        </li> 
-                    )
+                            {this.renderContent(val)}
+                        </li>);
+                    })
                 }
             </ul>
         </div>
