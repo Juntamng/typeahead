@@ -14,11 +14,15 @@ class Typeahead extends React.Component {
 
         this.state = {
             searchText: '',
-            value: '',
+            name: '',
             filterData: [],
             open: false,
             loading: false,
             index: -1
+        }
+
+        if (props.value) {
+            this.state.searchText = this.state.name = props.value.name;
         }
 
         this.showDropdown = this.showDropdown.bind(this);
@@ -38,7 +42,7 @@ class Typeahead extends React.Component {
     resetState() {
         this.setState({
             searchText: '',
-            value: '',
+            name: '',
             filterData: [],
             open: false,
             loading: false,
@@ -115,7 +119,7 @@ class Typeahead extends React.Component {
         if (findItem) {
             this.setState({
                 searchText: findItem.name,
-                value: findItem.name,
+                name: findItem.name,
                 open: false
             });
 
@@ -173,7 +177,7 @@ class Typeahead extends React.Component {
 
     showDropdown() {        
         if (this.state.open && this.state.searchText.length) {
-            if (this.state.searchText === this.state.value) {
+            if (this.state.searchText === this.state.name) {
                 return '';
             }
             else if (this.state.filterData.length) {              
@@ -199,6 +203,7 @@ class Typeahead extends React.Component {
 
     render() {
         return (
+            
             <div className='typeahead' onClick={this.handleClick}>
                 <SearchTextbox 
                     onSearchText={this.handleSearchText} 

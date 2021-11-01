@@ -90,7 +90,9 @@ function App() {
       <h2> Regular Example </h2>
       <Typeahead
         collection={data}
+        value={value}
         setValue={setValue}
+        
         formatRecord={formatRecord}
         formatContent={formatContent2}
       />
@@ -104,6 +106,7 @@ function App() {
         collectionLoading={loadingUserAsync}
         onFilter={filter}
         setLoading={setLoadingUserAsync}
+        value={valueAsync}
         setValue={setValueAsync}
         formatRecord={formatRecord2}
         formatContent={formatContent2}
@@ -115,6 +118,7 @@ function App() {
       <h2> Custom Render Example </h2>
       <Typeahead
         collection={colUser}
+        value={valueUser}
         setValue={setValueUser}
         formatRecord={formatUserRecord}
         formatContent={formatUserContent}
