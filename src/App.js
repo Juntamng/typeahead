@@ -117,6 +117,7 @@ return (
         </div>
         : ""
         }
+        <hr></hr>
       </div>
       {/* Regular Typeahead */}
 
@@ -138,7 +139,7 @@ return (
           />
           </div>
           <br/>
-          <div>Value is {JSON.stringify(value)}</div>
+          <div>Value is {JSON.stringify(valueAsync)}</div>
         </div>
       </div>
       <div className="row">
@@ -178,6 +179,7 @@ return (
         </pre>
         </div>
         : ""}
+        <hr></hr>
       </div>
       {/* Typeahead - API Response */}
 
@@ -237,40 +239,10 @@ return (
         </pre>
         </div>
         : ""}
+        <hr></hr>
       </div>
       {/* Typeahead - formatRecord and formatContent */}
 
-      {
-      /*
-      <br/>
-      <h2> Async Example </h2>
-      <TypeaheadAsync 
-        collectionFilter={colUserAsync}
-        collectionLoading={loadingUserAsync}
-        setLoading={setLoadingUserAsync}
-        
-        onCollectionFilter={filter}
-        
-        value={valueAsync}
-        setValue={setValueAsync}
-        formatRecord={formatRecord2}
-        formatContent={formatContent2}
-      />
-      <br/>
-      <div>valueAsync is {JSON.stringify(valueAsync)}</div>
-
-      <br/>
-      <h2> Custom Render Example </h2>
-      <Typeahead
-        collection={colUser}
-        value={valueUser}
-        setValue={setValueUser}
-        formatRecord={formatUserRecord}
-        formatContent={formatUserContent}
-      />
-      <br/>
-      <div>valueAsync is {JSON.stringify(valueUser)}</div>
-      */ }
     </div>
     </>
   );

@@ -48,6 +48,8 @@ class Typeahead extends React.Component {
             loading: false,
             index: -1
         });
+
+        this.props.setValue && this.props.setValue();
     }
 
     componentDidMount() {
