@@ -7,5 +7,5 @@
 
 ## Demo
 
-[Live demo](https://juntamng.github.io/typeahead/)
+[Live demo](https://juntamng.github.io/typeahead/){:target="_blank"}
 
