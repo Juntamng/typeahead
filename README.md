@@ -5,7 +5,5 @@
 </div>
 <br><br>
 
-## Demo
-
-[Live demo](https://juntamng.github.io/typeahead/){:target="_blank"}
+<a href='https://juntamng.github.io/typeahead/' target="_blank">Live Demo</a>
 
