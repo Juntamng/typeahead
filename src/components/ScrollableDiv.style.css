@@ -1,11 +1,12 @@
 .scrollabe_div {
     position: absolute;
-    height: 100px;
+    height: 200px;
     overflow: auto;
     width: 100%;
     margin-top: 1px;
     border: 1px solid #ccc;
     background-color: #fff;
+    z-index: 99;
 }
 
 .scrollabe_div > ul {
@@ -17,26 +18,18 @@
 .scrollabe_div li {
     text-align: left;
     color: #000;
-    padding: 3px 5px;
+    padding: 10px 5px;
     cursor: pointer;
+    margin: 0px;
 }
 
 .scrollabe_div li:hover {
     color: #fff;
-    background-color: rgb(104, 104, 104);
+    background-color: rgb(170, 170, 170);
 }
 
 .scrollabe_div li.selected {
     color: #fff;
-    background-color: #000;
+    background-color: rgb(99, 99, 99);
 }
 
-.notfound {
-    position: absolute;
-    width: 100%;
-    margin-top: 1px;
-    border: 1px solid #ccc;
-    background-color: #fff;
-    text-align: center;
-    padding: 2px;
-}

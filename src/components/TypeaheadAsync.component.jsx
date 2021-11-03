@@ -83,7 +83,7 @@ class Typeahead extends React.Component {
         this.props.setLoading(true);
 
         _.debounce( () => {
-            this.props.onFilter(val)
+            this.props.onCollectionFilter(val)
             this.clearKeyIndex();
         }, 200)();
     }
@@ -115,7 +115,7 @@ class Typeahead extends React.Component {
                 open: false
             });
 
-            this.props.setValue({...findItem});
+            this.props.setValue && this.props.setValue({...findItem});
         }
         
         this.clearKeyIndex();
@@ -175,7 +175,7 @@ class Typeahead extends React.Component {
             else if (this.state.filterData.length) {                
                 return (
                     <ScrollableDivComponent 
-                        loading={this.props.collectionLoading} 
+                        loading={this.props.loading} 
                         collection={this.state.filterData} 
                         onSelectItem={this.handleSelectItem} 
                         index={this.state.index}
@@ -184,7 +184,7 @@ class Typeahead extends React.Component {
                 );
             }
             else {
-                if (!this.props.collectionLoading) 
+                if (!this.props.loading) 
                     return this.notFound();
             }
         }

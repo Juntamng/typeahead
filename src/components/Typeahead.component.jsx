@@ -123,7 +123,7 @@ class Typeahead extends React.Component {
                 open: false
             });
 
-            this.props.setValue({...findItem});
+            this.props.setValue && this.props.setValue({...findItem});
         }
         
         this.clearKeyIndex();

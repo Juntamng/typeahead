@@ -11,3 +11,13 @@
 /* .typeahead  * {
     box-sizing: border-box;
 } */
+
+.notfound {
+    position: absolute;
+    width: 100%;
+    margin-top: 1px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    text-align: center;
+    padding: 10px;
+}
