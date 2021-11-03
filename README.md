@@ -1,6 +1,6 @@
 <h1 align="center">React Typeahead Component</h1>
 
-[My image](./typeahead-animated.gif)
+<div align='center'><img src='./typeahead-animated.gif' /></div>
 
 ## Demo
 
